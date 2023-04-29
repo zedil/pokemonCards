@@ -73,13 +73,6 @@
 			path = NetworkUtils;
 			sourceTree = "<group>";
 		};
-		A02DBCB528CCFB5D008FB2CF /* BaseUtils */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = BaseUtils;
-			sourceTree = "<group>";
-		};
 		A0743B8428B10A9A00526F28 = {
 			isa = PBXGroup;
 			children = (
@@ -99,7 +92,6 @@
 		A0743B8F28B10A9A00526F28 /* pokeChallenge */ = {
 			isa = PBXGroup;
 			children = (
-				A02DBCB528CCFB5D008FB2CF /* BaseUtils */,
 				A02DBCB428CCFB47008FB2CF /* NetworkUtils */,
 				A02DBCB228CCFAA0008FB2CF /* View */,
 				A02DBCB328CCFAA6008FB2CF /* ViewModel */,

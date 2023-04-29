@@ -11,16 +11,18 @@ import UIKit
 protocol PokemonManagerDelegate {
     func didUpdatePoke(pokemon: PokemonModel)
 }
- 
-struct PokemonManager {
-    
+
+struct Constants {
+    static let url = "https://pokeapi.co/api/v2/pokemon/"
+}
+
+
+class PokemonManager {
     var delegate : PokemonManagerDelegate?
-    
-    let url = "https://pokeapi.co/api/v2/pokemon/"
     
     func fetchPokemon() {
         let localPoke = setUserDef()
-        let requestedUrl = url + String(localPoke) + "/"
+        let requestedUrl = Constants.url + String(localPoke) + "/"
         if let url = URL(string: requestedUrl) {
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { (data, response, error) in
@@ -31,19 +33,15 @@ struct PokemonManager {
                 
                 if let safeData = data {
                     if let pokemon = self.parseJSON(pokeData: safeData) {
-                        
                         self.delegate?.didUpdatePoke(pokemon: pokemon)
-                        
                     }
                 }
             }
             task.resume()
-            
         }
     }
     
-    
-    func parseJSON(pokeData: Data) -> PokemonModel? {
+    private func parseJSON(pokeData: Data) -> PokemonModel? {
         let decoder = JSONDecoder()
         do {
             let decodedData = try decoder.decode(PokeData.self, from: pokeData)
@@ -55,7 +53,6 @@ struct PokemonManager {
             let defense = decodedData.stats[2].base_stat
             
             let pokemon = PokemonModel(name: name, photo: photo, hp: hp, attack: attack, defense: defense)
-            
             return pokemon
             
         } catch {
@@ -64,33 +61,12 @@ struct PokemonManager {
         }
     }
     
-    
-    func setUserDef() -> Int {
-        
+    private func setUserDef() -> Int {
         let userDefaults = UserDefaults.standard
-        
-        var pokenum = userDefaults.integer(forKey: "pokeKey")
-        
+        let pokenum = userDefaults.integer(forKey: "pokeKey")
         userDefaults.set(pokenum + 1, forKey: "pokeKey")
         
-        print("pokenumm: \(pokenum)")
         return pokenum
     }
-    
-    /*
-    let url = URL(string: ServiceConfig.IMAGE_BASE_URL + allNowPlayingDetailModel[indexPath.row].poster_path)
-    DispatchQueue.global().async {
-        if let data = try? Data(contentsOf: url!) {
-            DispatchQueue.main.async {
-                cell.imageviewCVC.image = UIImage(data: data)
-            }
-    }
-    } */
-    
-    
-    
-
-
-
 }
 

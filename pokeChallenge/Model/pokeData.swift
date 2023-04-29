@@ -7,14 +7,12 @@
 
 import Foundation
 
-
 struct PokeData: Codable {
     let weight: Int
     let name: String
     let sprites: Sprites
     let stats: [Stats]
 }
-
 
 struct Sprites: Codable {
     let front_default: String
