@@ -9,15 +9,8 @@ import UIKit
 
 class MainViewController: UIViewController, PokemonManagerDelegate {
     
-    
-    var pokemonManager = PokemonManager()
-    //var pokemonManager = PokemonManagerDelegate()
-    
-    
     private let refreshView: UIView = {
-       
         let view = UIView()
-        
         view.backgroundColor = .white
         view.layer.cornerRadius = 24
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -26,7 +19,6 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
     }()
     
     private let refreshImgView: UIView = {
-       
         let image = UIImageView()
         image.image = UIImage(named: "replay")
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -35,9 +27,7 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
     }()
     
     private let pokeCardView: UIView = {
-       
         let view = UIView()
-        
         view.backgroundColor = .white
         view.layer.cornerRadius = 36
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -46,9 +36,7 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
     }()
     
     private let pokeCardName: UILabel = {
-       
         let label = UILabel()
-        
         label.text = "Bulbasaur"
         label.textColor = .black
         label.textAlignment = .center
@@ -59,7 +47,6 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
     }()
     
     private let pokeCardImgView: UIImageView = {
-       
         let image = UIImageView()
         image.image = UIImage(named: "bulbasaur")
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -68,9 +55,7 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
     }()
     
     private let pokeCardHealth: UILabel = {
-       
         let label = UILabel()
-        
         label.text = "hp"
         label.textColor = .black
         label.textAlignment = .center
@@ -81,9 +66,7 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
     }()
     
     private let pokeCardAttack: UILabel = {
-       
         let label = UILabel()
-        
         label.text = "attack"
         label.textColor = .black
         label.textAlignment = .center
@@ -94,9 +77,7 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
     }()
     
     private let pokeCardDefense: UILabel = {
-       
         let label = UILabel()
-        
         label.text = "defense"
         label.textColor = .black
         label.textAlignment = .center
@@ -107,9 +88,7 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
     }()
     
     private let pokeCardHpValue: UILabel = {
-       
         let label = UILabel()
-        
         label.text = "45"
         label.textColor = .black
         label.textAlignment = .center
@@ -120,9 +99,7 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
     }()
     
     private let pokeCardAttackValue: UILabel = {
-       
         let label = UILabel()
-        
         label.text = "45"
         label.textColor = .black
         label.textAlignment = .center
@@ -133,9 +110,7 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
     }()
     
     private let pokeCardDefenseValue: UILabel = {
-       
         let label = UILabel()
-        
         label.text = "45"
         label.textColor = .black
         label.textAlignment = .center
@@ -146,7 +121,6 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
     }()
     
     private let nextPokeButton: UIButton = {
-       
         let button = UIButton()
         button.setTitle("Next Pokemon", for: .normal)
         button.backgroundColor = .white
@@ -158,18 +132,22 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
         
     }()
     
+    var pokemonManager = PokemonManager()
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
-        pokemonManager.delegate = self
-        
-        pokemonManager.fetchPokemon()
-        
         view.backgroundColor = UIColor(named: "backgroundColor")
         
+        pokemonManager.delegate = self
+        pokemonManager.fetchPokemon()
+        
+        addSubViews()
+        applyConstraint()
+        
+        nextPokeButton.addTarget(self, action: #selector(didButtonClick), for: .touchUpInside)
+    }
+    
+    private func addSubViews() {
         view.addSubview(pokeCardView)
         view.addSubview(refreshView)
         view.addSubview(nextPokeButton)
@@ -182,22 +160,9 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
         pokeCardView.addSubview(pokeCardAttackValue)
         pokeCardView.addSubview(pokeCardHpValue)
         pokeCardView.addSubview(pokeCardDefenseValue)
-        
-        nextPokeButton.addTarget(self, action: #selector(didButtonClick), for: .touchUpInside)
-        
-        applyConstraint()
     }
-    
-    @objc func didButtonClick(_ sender: UIButton) {
-        
-        print("button clicked")
-        pokemonManager.fetchPokemon()
-    }
-    
-    
     
     func didUpdatePoke(pokemon: PokemonModel) {
-        
         let url = URL(string: pokemon.photo)
         DispatchQueue.global().async {
             if let data = try? Data(contentsOf: url!) {
@@ -212,8 +177,7 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
         }
     }
     
-    func applyConstraint(){
-        
+    private func applyConstraint(){
         let refreshViewConst = [
             refreshView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 19),
             refreshView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
@@ -266,8 +230,6 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
             pokeCardHealth.leadingAnchor.constraint(equalTo: pokeCardView.leadingAnchor, constant: 18),
             pokeCardHealth.widthAnchor.constraint(equalToConstant: 88),
             pokeCardHealth.heightAnchor.constraint(equalToConstant: 22)
-            
-            
         ]
         
         NSLayoutConstraint.activate(pokeCardViewHpConst)
@@ -277,7 +239,6 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
             pokeCardAttack.leadingAnchor.constraint(equalTo: pokeCardHealth.trailingAnchor, constant: 0),
             pokeCardAttack.widthAnchor.constraint(equalToConstant: 88),
             pokeCardAttack.heightAnchor.constraint(equalToConstant: 22)
-            
         ]
         
         NSLayoutConstraint.activate(pokeCardViewAttackConst)
@@ -287,8 +248,6 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
             pokeCardDefense.leadingAnchor.constraint(equalTo: pokeCardAttack.trailingAnchor, constant: 0),
             pokeCardDefense.widthAnchor.constraint(equalToConstant: 88),
             pokeCardDefense.heightAnchor.constraint(equalToConstant: 22)
-            
-            
         ]
         
         NSLayoutConstraint.activate(pokeCardDefConst)
@@ -328,8 +287,14 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
         ]
         
         NSLayoutConstraint.activate(nextPokeButtonConst)
+    }
+}
 
-        
+// MARK: Action
+extension MainViewController {
+    
+    @objc func didButtonClick(_ sender: UIButton) {
+        pokemonManager.fetchPokemon()
     }
 }
 
@@ -340,4 +305,5 @@ extension UIImage {
         }
     }
 }
+
 

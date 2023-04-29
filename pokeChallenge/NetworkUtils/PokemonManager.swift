@@ -1,11 +1,11 @@
 //
-//  ViewController.swift
+//  PokemonManager.swift
 //  pokeChallenge
 //
-//  Created by Dilara Şimşek on 20.08.2022.
+//  Created by Dilara Şimşek on 27.08.2022.
 //
 
-/*
+import Foundation
 import UIKit
 
 protocol PokemonManagerDelegate {
@@ -16,13 +16,11 @@ struct PokemonManager {
     
     var delegate : PokemonManagerDelegate?
     
-    var pokeNumber: Int = 1
     let url = "https://pokeapi.co/api/v2/pokemon/"
-    //"https://pokeapi.co/api/v2/pokemon/\(pokeNumber)/"
-    var requestedUrl : String = ""
     
     func fetchPokemon() {
-        requestedUrl = url + String(pokeNumber) + "/"
+        let localPoke = setUserDef()
+        let requestedUrl = url + String(localPoke) + "/"
         if let url = URL(string: requestedUrl) {
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { (data, response, error) in
@@ -34,17 +32,11 @@ struct PokemonManager {
                 if let safeData = data {
                     if let pokemon = self.parseJSON(pokeData: safeData) {
                         
-                        print("pokedata: \(pokemon)")
                         self.delegate?.didUpdatePoke(pokemon: pokemon)
-                        //let pokemonVC = MainViewController()
-                        //pokemonVC.didUpdatePoke(pokemon: pokemon)
                         
                     }
-                    
                 }
             }
-            
-            
             task.resume()
             
         }
@@ -58,10 +50,11 @@ struct PokemonManager {
             
             let name = decodedData.name
             let photo = decodedData.sprites.front_default
+            let hp = decodedData.stats[0].base_stat
+            let attack = decodedData.stats[1].base_stat
+            let defense = decodedData.stats[2].base_stat
             
-            print("poke name: \(name)")
-            
-            let pokemon = PokemonModel(name: name, photo: photo)
+            let pokemon = PokemonModel(name: name, photo: photo, hp: hp, attack: attack, defense: defense)
             
             return pokemon
             
@@ -69,6 +62,19 @@ struct PokemonManager {
             print(error)
             return nil
         }
+    }
+    
+    
+    func setUserDef() -> Int {
+        
+        let userDefaults = UserDefaults.standard
+        
+        var pokenum = userDefaults.integer(forKey: "pokeKey")
+        
+        userDefaults.set(pokenum + 1, forKey: "pokeKey")
+        
+        print("pokenumm: \(pokenum)")
+        return pokenum
     }
     
     /*
@@ -88,4 +94,3 @@ struct PokemonManager {
 
 }
 
- */
