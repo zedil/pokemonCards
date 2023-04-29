@@ -63,10 +63,9 @@ class PokemonManager {
     
     private func setUserDef() -> Int {
         let userDefaults = UserDefaults.standard
-        let pokenum = userDefaults.integer(forKey: "pokeKey")
-        userDefaults.set(pokenum + 1, forKey: "pokeKey")
-        
-        return pokenum
+        let pokeNumber = userDefaults.integer(forKey: "pokeKey")
+        userDefaults.set(pokeNumber + 1, forKey: "pokeKey")
+        return pokeNumber
     }
 }
 

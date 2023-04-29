@@ -132,7 +132,7 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
         
     }()
     
-    var pokemonManager = PokemonManager()
+    private var pokemonManager = PokemonManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -144,7 +144,7 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
         addSubViews()
         applyConstraint()
         
-        nextPokeButton.addTarget(self, action: #selector(didButtonClick), for: .touchUpInside)
+        nextPokeButton.addTarget(self, action: #selector(didButtonTap), for: .touchUpInside)
     }
     
     private func addSubViews() {
@@ -163,20 +163,25 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
     }
     
     func didUpdatePoke(pokemon: PokemonModel) {
-        let url = URL(string: pokemon.photo)
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url!) {
-                DispatchQueue.main.async {
-                    self.pokeCardName.text = pokemon.name
-                    self.pokeCardImgView.image = UIImage(data: data)
-                    self.pokeCardHpValue.text = String(pokemon.hp)
-                    self.pokeCardAttackValue.text = String(pokemon.attack)
-                    self.pokeCardDefenseValue.text = String(pokemon.defense)
+        if let url = URL(string: pokemon.photo) {
+            DispatchQueue.global().async {
+                if let data = try? Data(contentsOf: url) {
+                    DispatchQueue.main.async {
+                        self.pokeCardName.text = pokemon.name
+                        self.pokeCardImgView.image = UIImage(data: data)
+                        self.pokeCardHpValue.text = String(pokemon.hp)
+                        self.pokeCardAttackValue.text = String(pokemon.attack)
+                        self.pokeCardDefenseValue.text = String(pokemon.defense)
+                    }
                 }
             }
         }
     }
     
+}
+
+// MARK: UILayout
+extension MainViewController {
     private func applyConstraint(){
         let refreshViewConst = [
             refreshView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 19),
@@ -184,7 +189,6 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
             refreshView.heightAnchor.constraint(equalToConstant: 48),
             refreshView.widthAnchor.constraint(equalToConstant: 48)
         ]
-        
         NSLayoutConstraint.activate(refreshViewConst)
         
         let refreshImgViewConst = [
@@ -193,9 +197,7 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
             refreshImgView.heightAnchor.constraint(equalToConstant: 24),
             refreshImgView.widthAnchor.constraint(equalToConstant: 24)
         ]
-        
         NSLayoutConstraint.activate(refreshImgViewConst)
-        
         
         let pokeCardViewConst = [
             pokeCardView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 182),
@@ -203,16 +205,13 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
             pokeCardView.heightAnchor.constraint(equalToConstant: 480),
             pokeCardView.widthAnchor.constraint(equalToConstant: 300)
         ]
-        
         NSLayoutConstraint.activate(pokeCardViewConst)
-        
         
         let pokeCardViewNameConst = [
             pokeCardName.topAnchor.constraint(equalTo: pokeCardView.topAnchor, constant: 18),
             pokeCardName.centerXAnchor.constraint(equalTo: pokeCardView.centerXAnchor),
             pokeCardName.trailingAnchor.constraint(equalTo: pokeCardView.safeAreaLayoutGuide.trailingAnchor, constant: -30)
         ]
-        
         NSLayoutConstraint.activate(pokeCardViewNameConst)
         
         let pokeCardViewImageConst = [
@@ -221,9 +220,7 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
             pokeCardImgView.heightAnchor.constraint(equalToConstant: 100),
             pokeCardImgView.widthAnchor.constraint(equalToConstant: 100)
         ]
-        
         NSLayoutConstraint.activate(pokeCardViewImageConst)
-        
         
         let pokeCardViewHpConst = [
             pokeCardHealth.topAnchor.constraint(equalTo: pokeCardImgView.bottomAnchor, constant: 100),
@@ -231,7 +228,6 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
             pokeCardHealth.widthAnchor.constraint(equalToConstant: 88),
             pokeCardHealth.heightAnchor.constraint(equalToConstant: 22)
         ]
-        
         NSLayoutConstraint.activate(pokeCardViewHpConst)
         
         let pokeCardViewAttackConst = [
@@ -240,7 +236,6 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
             pokeCardAttack.widthAnchor.constraint(equalToConstant: 88),
             pokeCardAttack.heightAnchor.constraint(equalToConstant: 22)
         ]
-        
         NSLayoutConstraint.activate(pokeCardViewAttackConst)
         
         let pokeCardDefConst = [
@@ -249,43 +244,34 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
             pokeCardDefense.widthAnchor.constraint(equalToConstant: 88),
             pokeCardDefense.heightAnchor.constraint(equalToConstant: 22)
         ]
-        
         NSLayoutConstraint.activate(pokeCardDefConst)
         
         let pokeCardHpValueConst = [
             pokeCardHpValue.topAnchor.constraint(equalTo: pokeCardHealth.bottomAnchor, constant: 0),
             pokeCardHpValue.leadingAnchor.constraint(equalTo: pokeCardHealth.leadingAnchor, constant: 0),
             pokeCardHpValue.trailingAnchor.constraint(equalTo: pokeCardHealth.trailingAnchor, constant: 0)
-            
         ]
-        
         NSLayoutConstraint.activate(pokeCardHpValueConst)
         
         let pokeCardAttackValueConst = [
             pokeCardAttackValue.topAnchor.constraint(equalTo: pokeCardAttack.bottomAnchor, constant: 0),
             pokeCardAttackValue.leadingAnchor.constraint(equalTo: pokeCardAttack.leadingAnchor, constant: 0),
             pokeCardAttackValue.trailingAnchor.constraint(equalTo: pokeCardAttack.trailingAnchor, constant: 0)
-            
         ]
-        
         NSLayoutConstraint.activate(pokeCardAttackValueConst)
         
         let pokeCardDefenseValueConst = [
             pokeCardDefenseValue.topAnchor.constraint(equalTo: pokeCardDefense.bottomAnchor, constant: 0),
             pokeCardDefenseValue.leadingAnchor.constraint(equalTo: pokeCardDefense.leadingAnchor, constant: 0),
             pokeCardDefenseValue.trailingAnchor.constraint(equalTo: pokeCardDefense.trailingAnchor, constant: 0)
-            
         ]
-        
         NSLayoutConstraint.activate(pokeCardDefenseValueConst)
         
         let nextPokeButtonConst = [
             nextPokeButton.topAnchor.constraint(equalTo: pokeCardView.bottomAnchor, constant: 30),
             nextPokeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             nextPokeButton.heightAnchor.constraint(equalToConstant: 50)
-            
         ]
-        
         NSLayoutConstraint.activate(nextPokeButtonConst)
     }
 }
@@ -293,7 +279,7 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
 // MARK: Action
 extension MainViewController {
     
-    @objc func didButtonClick(_ sender: UIButton) {
+    @objc func didButtonTap(_ sender: UIButton) {
         pokemonManager.fetchPokemon()
     }
 }
