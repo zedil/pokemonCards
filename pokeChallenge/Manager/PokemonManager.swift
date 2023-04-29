@@ -14,8 +14,8 @@ protocol PokemonManagerDelegate {
 
 struct Constants {
     static let url = "https://pokeapi.co/api/v2/pokemon/"
+    static let pokeKey = "pokeKey"
 }
-
 
 class PokemonManager {
     var delegate : PokemonManagerDelegate?
@@ -23,22 +23,16 @@ class PokemonManager {
     func fetchPokemon() {
         let localPoke = setUserDef()
         let requestedUrl = Constants.url + String(localPoke) + "/"
-        if let url = URL(string: requestedUrl) {
-            let session = URLSession(configuration: .default)
-            let task = session.dataTask(with: url) { (data, response, error) in
-                if error != nil {
-                    print(error!)
-                    return
-                }
-                
-                if let safeData = data {
-                    if let pokemon = self.parseJSON(pokeData: safeData) {
-                        self.delegate?.didUpdatePoke(pokemon: pokemon)
-                    }
-                }
+        guard let url = URL(string: requestedUrl) else { return }
+        
+        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
+            guard let data = data, error == nil else { return }
+            
+            if let pokemon = self.parseJSON(pokeData: data) {
+                self.delegate?.didUpdatePoke(pokemon: pokemon)
             }
-            task.resume()
         }
+        task.resume()
     }
     
     private func parseJSON(pokeData: Data) -> PokemonModel? {
@@ -56,15 +50,15 @@ class PokemonManager {
             return pokemon
             
         } catch {
-            print(error)
+            print(error.localizedDescription)
             return nil
         }
     }
     
     private func setUserDef() -> Int {
         let userDefaults = UserDefaults.standard
-        let pokeNumber = userDefaults.integer(forKey: "pokeKey")
-        userDefaults.set(pokeNumber + 1, forKey: "pokeKey")
+        let pokeNumber = userDefaults.integer(forKey: Constants.pokeKey)
+        userDefaults.set(pokeNumber + 1, forKey: Constants.pokeKey)
         return pokeNumber
     }
 }

@@ -1,5 +1,5 @@
 //
-//  MainViewController.swift
+//  PokeViewController.swift
 //  pokeChallenge
 //
 //  Created by Dilara Şimşek on 27.08.2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController, PokemonManagerDelegate {
+class PokeViewController: UIViewController, PokemonManagerDelegate {
     
     private let refreshView: UIView = {
         let view = UIView()
@@ -181,7 +181,7 @@ class MainViewController: UIViewController, PokemonManagerDelegate {
 }
 
 // MARK: UILayout
-extension MainViewController {
+extension PokeViewController {
     private func applyConstraint(){
         let refreshViewConst = [
             refreshView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 19),
@@ -277,7 +277,7 @@ extension MainViewController {
 }
 
 // MARK: Action
-extension MainViewController {
+extension PokeViewController {
     
     @objc func didButtonTap(_ sender: UIButton) {
         pokemonManager.fetchPokemon()

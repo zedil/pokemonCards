@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A01A353628BA324200F97229 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01A353528BA324200F97229 /* MainViewController.swift */; };
+		A01A353628BA324200F97229 /* PokeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01A353528BA324200F97229 /* PokeViewController.swift */; };
 		A02DDE4228BA4B9C00C2E7A5 /* pokeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02DDE4128BA4B9C00C2E7A5 /* pokeModel.swift */; };
 		A02DDE4428BA549600C2E7A5 /* PokemonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02DDE4328BA549600C2E7A5 /* PokemonManager.swift */; };
 		A0743B9128B10A9A00526F28 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0743B9028B10A9A00526F28 /* AppDelegate.swift */; };
@@ -18,7 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A01A353528BA324200F97229 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		A01A353528BA324200F97229 /* PokeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokeViewController.swift; sourceTree = "<group>"; };
 		A02DDE4128BA4B9C00C2E7A5 /* pokeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pokeModel.swift; sourceTree = "<group>"; };
 		A02DDE4328BA549600C2E7A5 /* PokemonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonManager.swift; sourceTree = "<group>"; };
 		A0743B8D28B10A9A00526F28 /* pokeChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pokeChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,7 +53,7 @@
 		A02DBCB228CCFAA0008FB2CF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A01A353528BA324200F97229 /* MainViewController.swift */,
+				A01A353528BA324200F97229 /* PokeViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -65,12 +65,12 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		A02DBCB428CCFB47008FB2CF /* NetworkUtils */ = {
+		A02DBCB428CCFB47008FB2CF /* Manager */ = {
 			isa = PBXGroup;
 			children = (
 				A02DDE4328BA549600C2E7A5 /* PokemonManager.swift */,
 			);
-			path = NetworkUtils;
+			path = Manager;
 			sourceTree = "<group>";
 		};
 		A0743B8428B10A9A00526F28 = {
@@ -92,12 +92,12 @@
 		A0743B8F28B10A9A00526F28 /* pokeChallenge */ = {
 			isa = PBXGroup;
 			children = (
-				A02DBCB428CCFB47008FB2CF /* NetworkUtils */,
+				A02DBCB428CCFB47008FB2CF /* Manager */,
 				A02DBCB228CCFAA0008FB2CF /* View */,
 				A02DBCB328CCFAA6008FB2CF /* ViewModel */,
 				A02DBCB128CCFA9A008FB2CF /* Model */,
-				A0743B9028B10A9A00526F28 /* AppDelegate.swift */,
 				A0743B9228B10A9A00526F28 /* SceneDelegate.swift */,
+				A0743B9028B10A9A00526F28 /* AppDelegate.swift */,
 				A0743B9928B10A9B00526F28 /* Assets.xcassets */,
 				A0743B9B28B10A9B00526F28 /* LaunchScreen.storyboard */,
 				A0743B9E28B10A9B00526F28 /* Info.plist */,
@@ -180,7 +180,7 @@
 				A0743B9128B10A9A00526F28 /* AppDelegate.swift in Sources */,
 				A090F5A328B11B6E00A237ED /* pokeData.swift in Sources */,
 				A0743B9328B10A9A00526F28 /* SceneDelegate.swift in Sources */,
-				A01A353628BA324200F97229 /* MainViewController.swift in Sources */,
+				A01A353628BA324200F97229 /* PokeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
